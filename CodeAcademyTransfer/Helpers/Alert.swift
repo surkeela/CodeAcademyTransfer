@@ -7,10 +7,9 @@
 
 import UIKit
 
-func showAlert(title: String, message: String) -> UIAlertController {
+func showAlert(title: String, message: String, viewController: UIViewController) {
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    alert.addAction (UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-        NSLog ("The \"OK\" alert occurred. ")
-    }))
-    return alert
+    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+    viewController.present(alert, animated: true, completion: nil)
 }
+
