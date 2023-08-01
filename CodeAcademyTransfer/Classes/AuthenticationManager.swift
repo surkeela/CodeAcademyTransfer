@@ -11,20 +11,38 @@ class AuthenticationManager {
     
     var registeredUsers: [User] = []
     
+    func isPasswordsMatch(password: String, reEnterPassword: String) -> Bool {
+        password == reEnterPassword
+    }
+    
     func isUserInputsValid(username: String, password: String) -> Bool {
-        let minUsernameLength = 8
-        if username.count >= minUsernameLength && password.count >= minUsernameLength {
-            return true
-        } else {
-            print("Password and username must by 8 symbols")
-            return false
-        }
+        username.count >= 8 && password.count >= 8 
     }
     
     func isUserRegistered(username: String) -> Bool {
         return registeredUsers.contains(where: { user in
             user.username == username
         })
+    }
+    
+    func isAllConditionsMet(username: String, password: String, reEnterPassword: String, vc: UIViewController) -> Bool {
+        var allConditionsMet = true
+        
+        if password != reEnterPassword {
+            allConditionsMet = false
+            showAlert(title: "", message: "Passwords do not match", viewController: vc)
+        }
+        
+        if !isUserInputsValid(username: username, password: password) {
+            allConditionsMet = false
+            showAlert(title: "", message: "Username and password should be at least 8 symbols", viewController: vc)
+        }
+        
+        if isUserRegistered(username: username) {
+            allConditionsMet = false
+            showAlert(title: "", message: "Username already registered", viewController: vc)
+        }
+        return allConditionsMet
     }
     
     
