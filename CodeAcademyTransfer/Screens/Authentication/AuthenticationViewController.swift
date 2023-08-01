@@ -58,16 +58,12 @@ class AuthenticationViewController: UIViewController {
             switch authenticationType {
             case .registration:
                 let user = User(username: username, password: password, email: email, balance: 0.0)
-                if authenticationManager.isUserInputsValid(username: username, password: password) {
-                    if !authenticationManager.isUserRegistered(username: username) {
-                        authenticationManager.registeredUsers.append(user)
-                        print("👍 \(username) is registered")
-                        print(authenticationManager.registeredUsers.count)
-                    } else {
-                        print("toks username jau yra")
-                        
-                    }
+                if authenticationManager.isAllConditionsMet(username: username, password: password, reEnterPassword: reEnterPassword, vc: self) {
+                    authenticationManager.registeredUsers.append(user)
+                    print("👍 \(username) is registered")
+                    print(authenticationManager.registeredUsers.count)
                 }
+                
             case .login:
                 if password == reEnterPassword {
                 } else if authenticationManager.isUserRegistered(username: username) {
