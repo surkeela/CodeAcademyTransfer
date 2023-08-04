@@ -10,6 +10,7 @@ import UIKit
 class MainViewController: UIViewController {
     
     let authenticationManager = AuthenticationManager()
+    let transferManager = TransferManager()
     
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
@@ -20,12 +21,12 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func loginButtonTapped(_ sender: Any) {
-        let authenticationViewController = AuthenticationViewController(authenticationType: .login, authenticationManager: authenticationManager)
+        let authenticationViewController = AuthenticationViewController(authenticationType: .login, authenticationManager: authenticationManager, transferManager: transferManager)
         navigationController?.pushViewController(authenticationViewController, animated: true)
     }
     
     @IBAction func registerButtonTaped(_ sender: Any) {
-        let authenticationViewController = AuthenticationViewController(authenticationType: .registration, authenticationManager: authenticationManager)
+        let authenticationViewController = AuthenticationViewController(authenticationType: .registration, authenticationManager: authenticationManager, transferManager: transferManager)
         navigationController?.pushViewController(authenticationViewController, animated: true)
     }
     
