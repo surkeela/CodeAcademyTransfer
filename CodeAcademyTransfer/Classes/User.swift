@@ -17,9 +17,9 @@ class User {
     init(username: String, password: String, email: String, balance: Double) {
         self.username = username
         self.password = password
-        self.balance = balance
         self.email = email
+        self.balance = balance
     }
-
+    
     
 }
