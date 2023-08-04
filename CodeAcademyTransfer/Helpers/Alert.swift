@@ -12,4 +12,3 @@ func showAlert(title: String, message: String, viewController: UIViewController)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
     viewController.present(alert, animated: true, completion: nil)
 }
-

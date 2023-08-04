@@ -14,10 +14,12 @@ class AuthenticationViewController: UIViewController {
     
     let authenticationManager: AuthenticationManager
     let authenticationType: AuthenticationType
+    let transferManager: TransferManager
     
-    init(authenticationType: AuthenticationType, authenticationManager: AuthenticationManager) {
+    init(authenticationType: AuthenticationType, authenticationManager: AuthenticationManager, transferManager: TransferManager) {
         self.authenticationType = authenticationType
         self.authenticationManager = authenticationManager
+        self.transferManager = transferManager
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -49,29 +51,25 @@ class AuthenticationViewController: UIViewController {
     }
     
     @IBAction func submitButtonTapped(_ sender: Any) {
-        if
-            let username = usernameTextField.text,
-            let password = passwordTextField.text,
-            let reEnterPassword = reEnterPasswordTextField.text,
-            let email = emailTextField.text
+        if let username = usernameTextField.text,
+           let password = passwordTextField.text,
+           let reEnterPassword = reEnterPasswordTextField.text,
+           let email = emailTextField.text
         {
             switch authenticationType {
             case .registration:
-                let user = User(username: username, password: password, email: email, balance: 0.0)
+                let user = User(username: username, password: password, email: email, balance: 500)
                 if authenticationManager.isAllConditionsMet(username: username, password: password, reEnterPassword: reEnterPassword, vc: self) {
+                    transferManager.currentUser = user
                     authenticationManager.registeredUsers.append(user)
-                    print("👍 \(username) is registered")
-                    print(authenticationManager.registeredUsers.count)
+                    navigateToHomeViewController()
                 }
-                
             case .login:
-                if password == reEnterPassword {
-                } else if authenticationManager.isUserRegistered(username: username) {
-                    print("👍 \(username) is logged ")
-                }
+                let user = authenticationManager.findUser(username: username)
+                authenticationManager.checkIfRegistered(username: username, password: password, vc: self)
+                transferManager.currentUser = user
+                navigateToHomeViewController()
             }
-        } else {
-            print("Something is broken ☠️")
         }
     }
     
@@ -93,6 +91,11 @@ class AuthenticationViewController: UIViewController {
             reEnterPasswordTextField.placeholder = "Re-enter password"
         }
         submitButton.layer.cornerRadius = 8
+    }
+    
+    func navigateToHomeViewController() {
+        let homeViewController = HomeViewController(authenticationManager: authenticationManager, transferManager: transferManager)
+        navigationController?.pushViewController(homeViewController, animated: true)
     }
     
     
