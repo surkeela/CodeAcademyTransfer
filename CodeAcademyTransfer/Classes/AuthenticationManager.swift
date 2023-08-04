@@ -11,12 +11,8 @@ class AuthenticationManager {
     
     var registeredUsers: [User] = []
     
-    func isPasswordsMatch(password: String, reEnterPassword: String) -> Bool {
-        password == reEnterPassword
-    }
-    
     func isUserInputsValid(username: String, password: String) -> Bool {
-        username.count >= 8 && password.count >= 8 
+        username.count >= 8 && password.count >= 8
     }
     
     func isUserRegistered(username: String) -> Bool {
@@ -45,6 +41,36 @@ class AuthenticationManager {
         return allConditionsMet
     }
     
+    func checkIfRegistered(username: String, password: String, vc: UIViewController) {
+        if let user = registeredUsers.first(where: { $0.username == username }) {
+            if user.password == password {
+            } else {
+                showAlert(title: "", message: "Incorrect password", viewController: vc)
+            }
+        } else {
+            showAlert(title: "", message: "Username not found", viewController: vc)
+        }
+    }
+    
+    func findUser(username: String) -> User {
+        var user = User(username: "", password: "", email: "", balance: 0.0)
+        for registeredUser in registeredUsers {
+            if registeredUser.username == username {
+                user = registeredUser
+            }
+        }
+        return user
+    }
+    
+    func isRecipientExists(user: User, vc: UIViewController) -> Bool {
+        if registeredUsers.contains(where: { $0.username == user.username }) {
+            return true
+        } else {
+            showAlert(title: "", message: "Can't find recipient", viewController: vc)
+            return false
+        }
+    }
+    
     
 }
 
@@ -58,4 +84,3 @@ extension AuthenticationManager {
         emailTextField.text = "demoEmail@demoHost.com"
     }
 }
-
