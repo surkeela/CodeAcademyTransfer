@@ -34,6 +34,16 @@ class HomeViewController: UIViewController {
         configureUI()
     }
     
+    func configureUI() {
+        greetingLabel.text = "Hello \(transferManager.currentUser.username)"
+        balanceLabel.text = "Balance: \(transferManager.currentUser.balance) €"
+        recipientNameTextField.placeholder = "Send to"
+        amountTextField.placeholder = "Send amount"
+        transferButton.setTitle("Transfer", for: .normal)
+        logoutButton.setTitle("Logout", for: .normal)
+        amountTextField.text = ""
+    }
+    
     @IBAction func transferTapped(_ sender: Any) {
         if let recipientName = recipientNameTextField.text,
            let amount = Double(amountTextField.text ?? "0.0")
@@ -49,16 +59,6 @@ class HomeViewController: UIViewController {
     
     @IBAction func logoutTapped(_ sender: Any) {
         navigationController?.popToRootViewController(animated: true)
-    }
-    
-    func configureUI() {
-        greetingLabel.text = "Hello \(transferManager.currentUser.username)"
-        balanceLabel.text = "Balance: \(transferManager.currentUser.balance) €"
-        recipientNameTextField.placeholder = "Send to"
-        amountTextField.placeholder = "Send amount"
-        transferButton.setTitle("Transfer", for: .normal)
-        logoutButton.setTitle("Logout", for: .normal)
-        amountTextField.text = ""
     }
     
     
